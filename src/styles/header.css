@@ -1,0 +1,36 @@
+.Header {
+	display: flex;
+	justify-content: space-between;
+	padding: 16px 32px;
+	align-items: center;
+	background-color: #adff2f;
+}
+
+.Header h1 {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+}
+
+.Header-logo {
+	display: flex;
+	align-items: center;
+}
+
+.Header-logo h1{
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+}
+
+.Header-logo img {
+	margin: 0px;
+	width: 18%;
+    margin-right: 10px;
+}
+
+.Header-btns span {
+	font-size: 22px;
+	margin-left: 48px;
+	color: black;
+	cursor: pointer;
+}
