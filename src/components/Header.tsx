@@ -2,6 +2,7 @@ import icon from '../../public/logo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import '../styles/header.css';
+import '../styles/body.css';
 
 
 
@@ -28,7 +29,7 @@ export default function Header ({props}){
             case 'Register':
                 return (
                     <>
-                        <span onClick={() => navegar.push('/Login')}><strong>Entrar</strong></span>
+                        <span onClick={() => navegar.push('/')}><strong>Login</strong></span>
                     </>
                 );
 

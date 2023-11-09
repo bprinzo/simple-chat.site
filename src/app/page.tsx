@@ -4,14 +4,11 @@ import Image from 'next/image'
 import Head from 'next/head';
 import Header from '@/components/Header'
 import '../styles/page.css';
+import '../styles/login.css';
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Login</title>
-      </Head>
-
       <Header props='Login'/>
       <div className='message'>
         <h1><strong>Connecting you with the world!</strong></h1>
