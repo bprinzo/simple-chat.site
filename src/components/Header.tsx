@@ -15,7 +15,7 @@ export default function Header ({props}){
             case 'Home':
                 return (
                     <>
-                        <span onClick={() => navegar.push('/register')}>Sair</span>
+                        <span onClick={() => navegar.push('/')}><strong>Logout</strong></span>
                     </>
                 );
 
