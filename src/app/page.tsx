@@ -1,16 +1,32 @@
 "use client";
 
-import Image from 'next/image'
-import Head from 'next/head';
-import Header from '@/components/Header'
-import '../styles/page.css';
-import '../styles/login.css';
+import Header from '@/components/Header';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import '../styles/login.css';
+import '../styles/page.css';
 
 export default function Login() {
   
   const navegar = useRouter();
-
+  const login = async (event: React.FormEvent<HTMLFormElement>) =>{
+    event.preventDefault();
+    console.log(event.currentTarget)
+    try {
+      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
+      {
+        email: event.currentTarget.email.value,
+        password:event.currentTarget.password.value
+      },
+        
+       )
+      console.log(data)
+    } catch (error) {
+      alert(error )
+    }
+  
+  
+  }
   return (
     <>
       <Header props='Login'/>
@@ -18,7 +34,7 @@ export default function Login() {
         <h1><strong>Connecting you with the world!</strong></h1>
       </div>
         <div className='login'>
-          <form action="">
+          <form action="" onSubmit={login}>
             <div className='Login-input'>
               <label htmlFor="inputEmail">Email</label>
               <input 
