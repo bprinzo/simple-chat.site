@@ -1,28 +1,27 @@
 "use client";
 
 import Header from '@/components/Header';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import '../styles/login.css';
 import '../styles/page.css';
+import { axiosInstance, setAccessToken } from '@/services/api';
 
 export default function Login() {
   
-  const navegar = useRouter();
-  const login = async (event: React.FormEvent<HTMLFormElement>) =>{
+  const navigation = useRouter();
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
-    console.log(event.currentTarget)
     try {
-      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
-      {
-        email: event.currentTarget.email.value,
-        password:event.currentTarget.password.value
-      },
-        
-       )
-      console.log(data)
-    } catch (error) {
-      alert(error )
+      const {data} = await axiosInstance.post('/auth/signin',
+        {
+          email: event.currentTarget.email.value,
+          password:event.currentTarget.password.value
+        }
+      )
+      setAccessToken(data.token)
+      navigation.push('/home')
+    } catch (error: any) {
+      alert(error.response.data.message)
     }
   
   
@@ -34,7 +33,7 @@ export default function Login() {
         <h1><strong>Connecting you with the world!</strong></h1>
       </div>
         <div className='login'>
-          <form action="" onSubmit={login}>
+          <form action="" onSubmit={handleSignIn}>
             <div className='Login-input'>
               <label htmlFor="inputEmail">Email</label>
               <input 
