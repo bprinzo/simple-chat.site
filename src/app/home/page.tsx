@@ -1,19 +1,37 @@
 'use client';
 
 import Header from "@/components/Header";
-import ChatCard from "@/components/ChatCard";
+import RoomCard from "@/components/RoomCard";
 import '../../styles/home.css'
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { axiosInstance } from "@/services/api";
+import { Room } from "@/types/Room";
 
 export default function Home (){
 
     const navegar = useRouter();
 
+    const [rooms, setRooms] = useState<Room[]>([]);
+
+    const getRooms = async () => {
+        try {
+          const { data } = await axiosInstance.get('/room')
+          setRooms(data)
+        } catch (error: any) {
+          alert(error.response.data.message)
+        }
+    }
+
+    useEffect(() => {
+        getRooms()
+    }, [])
+
     return(
         <>
             <Header props='Home'/>
             <div className="id">
-                <h1><strong>Username</strong></h1>
+                <h1><strong>{localStorage.getItem('username')}</strong></h1>
             </div>
             <div className="container">
                 <div className="container_button">
@@ -22,8 +40,9 @@ export default function Home (){
                 </div>
                 <h4><strong>Your Chats</strong></h4>
                 <div className="container_chatBox">
-                    <ChatCard/>
-                    <ChatCard/>
+                    {rooms.map(room => (
+                        <RoomCard key={room.id} room={room}/>
+                    ))}
                 </div>
 
 

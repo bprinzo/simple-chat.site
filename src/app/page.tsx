@@ -12,20 +12,21 @@ export default function Login() {
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
     try {
-      const {data} = await axiosInstance.post('/auth/signin',
+      const { data } = await axiosInstance.post('/auth/signin',
         {
           email: event.currentTarget.email.value,
           password:event.currentTarget.password.value
         }
       )
-      setAccessToken(data.token)
+      const { user, token } = data;
+      localStorage.setItem('username', user.name)
+      setAccessToken(token)
       navigation.push('/home')
     } catch (error: any) {
       alert(error.response.data.message)
     }
-  
-  
   }
+  
   return (
     <>
       <Header props='Login'/>
