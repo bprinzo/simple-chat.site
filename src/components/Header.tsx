@@ -38,21 +38,47 @@ export default function Header ({props}){
         }
     }
 
-    return (
-        <div className="Header">
-            <div className='Header-logo'>
-                <Image
-                    src={icon}
-                    alt="Icone"
-                    height={200}
-                    width={200}
-                    priority />
+    if(props == 'Login' || props == 'Register'){
+        return(
+            <>
+                <div className="Header">
+                    <div className='Header-logo'>
+                        <Image
+                            src={icon}
+                            alt="Icone"
+                            height={200}
+                            width={200}
+                            priority />
 
-                <h1>iChat</h1>
+                        <h1>iChat</h1>
+                    </div>
+                    <div className='Header-btns'>
+                        {renderNavLinks(props)}
+                    </div>
+                </div>
+            </>
+        )
+    }else{
+        return (
+        <>
+            <div className="Header">
+                <a href="/home">
+                    <div className='Header-logo'>
+                        <Image
+                            src={icon}
+                            alt="Icone"
+                            height={200}
+                            width={200}
+                            priority />
+    
+                        <h1>iChat</h1>
+                    </div>
+                </a>
+                <div className='Header-btns'>
+                    {renderNavLinks(props)}
+                </div>
             </div>
-            <div className='Header-btns'>
-                {renderNavLinks(props)}
-            </div>
-        </div>
-    );
+        </>
+        )
+    }
 }
