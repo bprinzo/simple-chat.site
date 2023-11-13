@@ -1,5 +1,6 @@
 "use client";
 
+import { setCookie } from 'cookies-next';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
 import '../styles/login.css';
@@ -19,9 +20,10 @@ export default function Login() {
         }
       )
       const { user, token } = data;
-      localStorage.setItem('username', user.name)
-      localStorage.setItem('accessToken', token)
       setAccessToken(token)
+      setCookie('token', token)
+      localStorage.setItem('name', user.name)
+      localStorage.setItem('userId', user.id)
       navigation.push('/home')
     } catch (error: any) {
       alert(error.response.data.message)

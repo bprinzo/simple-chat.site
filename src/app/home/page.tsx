@@ -31,7 +31,7 @@ export default function Home (){
         <>
             <Header props='Home'/>
             <div className="id">
-                <h1><strong>{localStorage.getItem('username')}</strong></h1>
+                <h1><strong>{localStorage.getItem('name')}</strong></h1>
             </div>
             <div className="container">
                 <div className="container_button">
