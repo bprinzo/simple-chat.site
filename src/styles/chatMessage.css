@@ -1,7 +1,23 @@
-.card {
-  background-color: white;
-  border-width: 2px;
-  border-radius: 5px;
-  padding: 15px;
+p {
+  color: var(--color);
+}
+
+.sendedMessage {
+  background-color: rgba(127, 229, 114, 0.6);
+  border-radius: 10px 10px 0px 10px;
+  padding: 7px 10px 7px 10px;
   margin-bottom: 15px;
+  max-width: 75%;
+  width: fit-content;
+  text-align: right;
+  margin-left: auto;
+}
+
+.receivedMessage {
+  background-color: rgba(215, 215, 215, 0.3);
+  border-radius: 10px 10px 10px 0px;
+  padding: 7px 10px 7px 10px;
+  margin-bottom: 15px;
+  max-width: 75%;
+  width: fit-content;
 }

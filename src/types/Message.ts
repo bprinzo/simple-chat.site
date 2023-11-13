@@ -1,6 +1,7 @@
 export type Message = {
   content: string,
   owner: {
-    id: string
+    id: string | null;
+    name: string | null
   },
 }

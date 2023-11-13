@@ -6,22 +6,23 @@
 .container {
   background-color: white;
   width: 70%;
-  height: 700px;
+  height: 750px;
   margin: 0 auto;
-  position: relative;
-  border-radius: 5px;
+  border-radius: 5px 5px 0px 0px;
 }
 
 .messagesContainer {
   padding: 15px 15px 0% 15px;
+  height: 100%;
   overflow-y: scroll;
+  border-radius: 5px 5px 0px 0px;
 }
 
 .sendContainer {
+  background-color: white;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
-  position: absolute;
   bottom: 10px;
   right: 10px;
   left: 10px;
@@ -29,7 +30,7 @@
 }
 
 .input {
-  background-color: rgba(190, 190, 190, 0.2);
+  background-color: rgba(215, 215, 215, 0.3);
   padding: 12px;
   color: black;
   width: 100%;
@@ -39,9 +40,8 @@
 
 .sendButton {
   padding: 12px;
-  background-color: rgb(100, 215, 250);
-  color: white;
-  font-weight: bold;
+  background-color: rgba(127, 229, 114, 0.6);
+  color: black;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }

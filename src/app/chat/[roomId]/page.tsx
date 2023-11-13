@@ -1,19 +1,22 @@
 "use client";
 
+import '../../../styles/chat.css'
 import { Socket, io } from 'socket.io-client';
 import ChatMessage from '@/components/ChatMessage';
-import '../../../styles/chat.css'
 import Header from "@/components/Header"
 import { axiosInstance } from "@/services/api";
 import { useParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Message } from '@/types/Message';
+import { getCookie } from 'cookies-next';
+import { useChatScroll } from '@/hooks/useChatScroll';
 
 
 export default function Chat(){
   const { roomId } = useParams()
   const [messages, setMessages] = useState<Message[]>([])
   const [socket, setSocket] = useState<Socket>()
+  const ref = useChatScroll(messages)
 
   const roomName = 'Teste'
 
@@ -21,6 +24,7 @@ export default function Chat(){
     event.preventDefault()
     if (event.currentTarget.message.value === '') {
       alert('Type a message to send!')
+      return;
     }
     try {
       const msg = event.currentTarget.message.value
@@ -33,7 +37,10 @@ export default function Chat(){
           ...prevMessages,
           {
             content: msg,
-            owner: { id: 'Eu-'}
+            owner: {
+              id: localStorage.getItem('userId'),
+              name: localStorage.getItem('name')
+            }
           }
         ]);
       } else {
@@ -41,6 +48,16 @@ export default function Chat(){
           roomId,
           content: msg
         })
+        setMessages(prevMessages => [
+          ...prevMessages,
+          {
+            content: msg,
+            owner: {
+              id: localStorage.getItem('userId'),
+              name: localStorage.getItem('name')
+            }
+          }
+        ]);
       }
       event.currentTarget.message.value = ''
     } catch (error: any) {
@@ -64,7 +81,7 @@ export default function Chat(){
   useEffect(() => {
     const socket = io('ws://localhost:3333', {
       auth: {
-        token: localStorage.getItem('accessToken')
+        token: getCookie('token')
       },
       transports: ['websocket'],
     })
@@ -86,6 +103,7 @@ export default function Chat(){
     };
   }, [])
 
+
   return(
     <>
       <Header props= 'Home'/>
@@ -93,9 +111,9 @@ export default function Chat(){
         <h1><strong>{roomName}</strong></h1>
       </div>
       <div className='container'>
-        <div className='messagesContainer'>
+        <div ref={ref} className='messagesContainer'>
           {messages.map((message, index) => (
-            <ChatMessage key={index} message={message}/>
+            <ChatMessage key={index} message={message} userId={localStorage.getItem('userId')}/>
           ))}
         </div>
         <form action="" onSubmit={handleSend}>
