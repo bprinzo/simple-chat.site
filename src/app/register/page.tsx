@@ -1,12 +1,30 @@
 "use client";
 
-import Head from "next/head";
 import Header from "@/components/Header";
-import '../../styles/login.css'
+import { axiosInstance, } from '@/services/api';
+import '../../styles/login.css';
 
-
-
+import { useRouter } from 'next/navigation';
 export default function Register (){
+    const navigation = useRouter();
+    const handleSignUp= async (event: React.FormEvent<HTMLFormElement>) =>{
+        event.preventDefault();
+        try {
+          const { data } = await axiosInstance.post('/auth/signup',
+            {
+              email: event.currentTarget.email.value,
+              password:event.currentTarget.password.value,
+              name:event.currentTarget.inputName.value,
+             
+            }
+          )
+          alert('Conta Criada!')
+        
+          navigation.push('/')
+        } catch (error: any) {
+          alert(error.response.data.message)
+        }
+      }
     return(
         
         <>
@@ -15,7 +33,7 @@ export default function Register (){
                 <h1><strong>Register</strong></h1>
             </div>
             <div className='login'>
-                <form action="">
+                <form action="" onSubmit={handleSignUp}>
                     <div className='Login-input'>
                         <label htmlFor="inputName">Name</label>
                         <input 
