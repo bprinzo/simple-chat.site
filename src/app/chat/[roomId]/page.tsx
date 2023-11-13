@@ -1,15 +1,19 @@
 "use client";
 
+import { Socket, io } from 'socket.io-client';
 import ChatMessage from '@/components/ChatMessage';
 import '../../../styles/chat.css'
 import Header from "@/components/Header"
 import { axiosInstance } from "@/services/api";
 import { useParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from "react";
+import { Message } from '@/types/Message';
+
 
 export default function Chat(){
   const { roomId } = useParams()
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState<Message[]>([])
+  const [socket, setSocket] = useState<Socket>()
 
   const roomName = 'Teste'
 
@@ -19,10 +23,25 @@ export default function Chat(){
       alert('Type a message to send!')
     }
     try {
-      await axiosInstance.post('/message', {
-        roomId,
-        content: event.currentTarget.message.value
-      })
+      const msg = event.currentTarget.message.value
+      if (socket) {
+        socket.emit('message', {
+          roomId: roomId,
+          content: msg
+        });
+        setMessages(prevMessages => [
+          ...prevMessages,
+          {
+            content: msg,
+            owner: { id: 'Eu-'}
+          }
+        ]);
+      } else {
+        await axiosInstance.post('/message', {
+          roomId,
+          content: msg
+        })
+      }
       event.currentTarget.message.value = ''
     } catch (error: any) {
       alert(error.response.data.message)
@@ -42,6 +61,31 @@ export default function Chat(){
     getMessages()
   }, [getMessages])
 
+  useEffect(() => {
+    const socket = io('ws://localhost:3333', {
+      auth: {
+        token: localStorage.getItem('accessToken')
+      },
+      transports: ['websocket'],
+    })
+
+    setSocket(socket)
+
+    socket.emit('join', roomId)
+
+    socket.on('message', (message) => {
+      setMessages(prevMessages => [
+        ...prevMessages,
+        message
+      ]);
+    })
+
+    return () => {
+      socket.emit('leave', roomId)
+      socket.disconnect();
+    };
+  }, [])
+
   return(
     <>
       <Header props= 'Home'/>
@@ -50,8 +94,8 @@ export default function Chat(){
       </div>
       <div className='container'>
         <div className='messagesContainer'>
-          {messages.map(({id, content}) => (
-            <ChatMessage key={id} content={content}/>
+          {messages.map((message, index) => (
+            <ChatMessage key={index} message={message}/>
           ))}
         </div>
         <form action="" onSubmit={handleSend}>

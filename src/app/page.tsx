@@ -20,6 +20,7 @@ export default function Login() {
       )
       const { user, token } = data;
       localStorage.setItem('username', user.name)
+      localStorage.setItem('accessToken', token)
       setAccessToken(token)
       navigation.push('/home')
     } catch (error: any) {

@@ -1,15 +1,12 @@
 
+import { Message } from '@/types/Message'
 import '../styles/chatMessage.css'
 
-type Message = {
-  content: string
-}
-
-export default function ChatMessage({ content }: Message){
+export default function ChatMessage({ message }: {message: Message}){
   return(
     <>
       <div className="card">
-        <p><strong>Zé ruela</strong>: {content}</p>
+        <p><strong>{message?.owner?.id.split('-')[0] ?? 'Anônimo'}</strong>: {message.content}</p>
       </div>
     </>
   )
