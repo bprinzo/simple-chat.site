@@ -9,6 +9,7 @@ import { axiosInstance } from "@/services/api";
 export default function CreateChat(){
 
     const navigation = useRouter()
+
     const handleCreate = async (event: React.FormEvent<HTMLFormElement>) =>{
         event.preventDefault();
         try {
