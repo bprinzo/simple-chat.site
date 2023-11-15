@@ -35,10 +35,10 @@ export default function Home (){
             </div>
             <div className="container">
                 <div className="container_button">
-                    <button onClick={() => navegar.push('/createChat')}>Create Chat</button>
-                    <button onClick={() => navegar.push('/enterChat')}>Enter Chat</button>
+                    <button onClick={() => navegar.push('/createChat')}>Create room</button>
+                    {/* <button onClick={() => navegar.push('/enterChat')}>Enter Chat</button> */}
                 </div>
-                <h4><strong>Your Chats</strong></h4>
+                <h4><strong>Rooms</strong></h4>
                 <div className="container_chatBox">
                     {rooms.map(room => (
                         <RoomCard key={room.id} room={room}/>

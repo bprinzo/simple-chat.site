@@ -16,9 +16,8 @@ export default function Chat(){
   const { roomId } = useParams()
   const [messages, setMessages] = useState<Message[]>([])
   const [socket, setSocket] = useState<Socket>()
+  const [room, setRoom] = useState<any>()
   const ref = useChatScroll(messages)
-
-  const roomName = 'Teste'
 
   const handleSend = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -74,9 +73,19 @@ export default function Chat(){
     }
   }, [roomId])
 
+  const getRoom = useCallback(async () => {
+    try {
+      const { data } = await axiosInstance.get(`/room/${roomId}`)
+      setRoom(data)
+    } catch (error: any) {
+      alert(error.response.data.message)
+    }
+  }, [roomId])
+
   useEffect(() => {
     getMessages()
-  }, [getMessages])
+    getRoom()
+  }, [getMessages, getRoom])
 
   useEffect(() => {
     const socket = io('ws://localhost:3333', {
@@ -101,16 +110,16 @@ export default function Chat(){
       socket.emit('leave', roomId)
       socket.disconnect();
     };
-  }, [])
+  }, [roomId])
 
 
   return(
     <>
       <Header props= 'Home'/>
-      <div className='title'>
-        <h1><strong>{roomName}</strong></h1>
-      </div>
       <div className='container'>
+        <div className='title'>
+          <h1><strong>{room?.title} #{room?.id.split('-')[0]}</strong></h1>
+        </div>
         <div ref={ref} className='messagesContainer'>
           {messages.map((message, index) => (
             <ChatMessage key={index} message={message} userId={localStorage.getItem('userId')}/>

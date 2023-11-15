@@ -1,5 +1,6 @@
 p {
   color: var(--color);
+  text-align: left;
 }
 
 .sendedMessage {
