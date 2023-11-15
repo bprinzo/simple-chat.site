@@ -1,25 +1,236 @@
-Front-end:
+# Simple Chat SITE
 
-1. Clonar o repositório
+A simple chat Site using websockets implemented using the Next.Js framework
 
-```git clone https://github.com/bprinzo/simple-chat.api```
 
-## Pré-requisitos
+## Built With
+
+* [Next.Js](https://nextjs.org/)
+
+## Getting Started
+
+### Prerequisites
 
 * Node.js
-* Next.js
 * Docker
 
-Instale o node: npm install node
+**Node.js v16x**
 
-Em seguida, instale o next.js: npx create-next-app projeto-docker
+```
+# Using Ubuntu
+curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
-Instale as dependências do yarn: -- yarn 
+```
+ * Windows download and install the .msi [Node.js](https://nodejs.org/en/)
+**Docker v3.x**
 
-Inicialize o projeto: npm run project-docker
+```
+# Using Ubuntu
+sudo apt-get update
+sudo apt-get install ./docker-desktop-<version>-<arch>.deb
 
-Após a inicialização do projeto, é necessário digitar seu nome e sua senha na tela de login
+```
+ * Windows download and install the .exe [Docker](https://docs.docker.com/desktop/install/windows-install/)
 
-Seus registros serão verificados através do banco de dados PostgreSQL
+ ### Installation instructions
 
-Na tela de chat você pode trocar mensagens, em que sua troca funcionará a partir de websockets.
+1. Clone the repo
+
+```git clone https://github.com/bprinzo/simple-chat.site```
+
+2. Install Yarn packages
+
+```
+yarn
+```
+  Or with Npm:
+  ```
+  npm install
+  ``` 
+3. Create a yml docker-compose file on a upper level than the project folder with the following configs
+```
+version: "3"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: simple_chat
+      POSTGRES_DB: simple_chat
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-simple_chat-data:/var/lib/postgresql/data
+    networks:
+      - simple-chat-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com.br
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: unless-stopped
+    ports:
+      - 16543:80
+    depends_on:
+      - postgres
+    networks:
+      - simple-chat-network
+  api:
+    build:
+      context: simple-chat.api
+      dockerfile: Dockerfile
+    command: yarn start:dev
+    restart: on-failure
+    ports:
+      - 3333:3333
+    env_file:
+      - ./simple-chat.api/.env
+    volumes:
+      - ./usr/src/app:/api
+    networks:
+      - simple-chat-network
+
+  front:
+    build:
+      context: simple-chat.site
+      dockerfile: Dockerfile
+    command: yarn dev
+    restart: on-failure
+    ports:
+      - 3000:3000
+    env_file:
+      - ./simple-chat.site/.env
+    volumes:
+      - ./usr/src/app:/site
+    networks:
+      - simple-chat-network
+volumes:
+  postgres-simple_chat-data:
+    driver: local
+networks:
+  simple-chat-network:
+```
+
+The folder structure of the project should look like the following
+
+```
+.
+└── root/
+    ├── docker-compose.yml
+    └── simple-chat.site/
+```
+
+4. Create the containers using the command
+```
+docker-compose up -d
+```
+If running locally disable the sistemas-distribuidos-project_front to avoid port conflicts, both the api and the database will be run in the docker this way
+
+6. Start the Application
+```
+yarn dev
+```
+    
+Or with Npm
+
+```
+npm run dev
+```
+
+
+ ### Container instructions
+ 1. Clone the repo repos
+
+```git clone https://github.com/bprinzo/simple-chat.api```
+and
+```git clone https://github.com/bprinzo/simple-chat.site```
+
+2. Install Yarn packages of both projects by going to the newly created directory
+
+```
+yarn
+```
+  Or with Npm:
+  ```
+  npm install
+  ``` 
+3. Create a yml docker-compose file on a upper level than both of the projects folders with the following configs
+```
+version: "3"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: simple_chat
+      POSTGRES_DB: simple_chat
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-simple_chat-data:/var/lib/postgresql/data
+    networks:
+      - simple-chat-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com.br
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: unless-stopped
+    ports:
+      - 16543:80
+    depends_on:
+      - postgres
+    networks:
+      - simple-chat-network
+  api:
+    build:
+      context: simple-chat.api
+      dockerfile: Dockerfile
+    command: yarn start:dev
+    restart: on-failure
+    ports:
+      - 3333:3333
+    env_file:
+      - ./simple-chat.api/.env
+    volumes:
+      - ./usr/src/app:/api
+    networks:
+      - simple-chat-network
+
+  front:
+    build:
+      context: simple-chat.site
+      dockerfile: Dockerfile
+    command: yarn dev
+    restart: on-failure
+    ports:
+      - 3000:3000
+    env_file:
+      - ./simple-chat.site/.env
+    volumes:
+      - ./usr/src/app:/site
+    networks:
+      - simple-chat-network
+volumes:
+  postgres-simple_chat-data:
+    driver: local
+networks:
+  simple-chat-network:
+```
+The folder structure of the project should look like the following
+
+```
+.
+└── root/
+    ├── docker-compose.yml
+    ├── simple-chat.site/
+    └── simple-chat.api/
+```
+
+4. Create the containers using the command
+```
+docker-compose up -d
+```
