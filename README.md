@@ -87,8 +87,13 @@ services:
       - 3333:3333
     env_file:
       - ./simple-chat.api/.env
+    environment:
+      DATABASE_HOST: postgres
+
     volumes:
       - ./usr/src/app:/api
+    depends_on:
+      - postgres
     networks:
       - simple-chat-network
 
@@ -195,8 +200,13 @@ services:
       - 3333:3333
     env_file:
       - ./simple-chat.api/.env
+    environment:
+      DATABASE_HOST: postgres
+
     volumes:
       - ./usr/src/app:/api
+    depends_on:
+      - postgres
     networks:
       - simple-chat-network
 
@@ -219,6 +229,7 @@ volumes:
     driver: local
 networks:
   simple-chat-network:
+
 ```
 The folder structure of the project should look like the following
 
