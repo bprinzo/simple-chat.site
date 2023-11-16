@@ -1,11 +1,10 @@
 "use client";
 
-import { setCookie } from 'cookies-next';
 import Header from '@/components/Header';
+import { axiosInstance, setAccessToken } from '@/services/api';
 import { useRouter } from 'next/navigation';
 import '../styles/login.css';
 import '../styles/page.css';
-import { axiosInstance, setAccessToken } from '@/services/api';
 
 export default function Login() {
   
@@ -13,17 +12,22 @@ export default function Login() {
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
     try {
-      const { data } = await axiosInstance.post('/auth/signin',
+     await axiosInstance.post('/auth/signin',
         {
           email: event.currentTarget.email.value,
           password:event.currentTarget.password.value
         }
-      )
-      const { user, token } = data;
-      setAccessToken(token)
-      setCookie('token', token)
-      localStorage.setItem('name', user.name)
-      localStorage.setItem('userId', user.id)
+      ).then((res)=>{
+        setAccessToken(res.data.token)
+          localStorage.setItem('name', res.data.user.name)
+          localStorage.setItem('userId',res.data. user.id)
+        
+      }).catch( (err)=>{
+        throw err
+      })
+  
+  
+   
       navigation.push('/home')
     } catch (error: any) {
       alert(error.response.data.message)

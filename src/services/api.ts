@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
-import { getCookie } from 'cookies-next';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { getCookie, setCookie } from 'cookies-next';
 
 const baseUrl = 'http://localhost:3333';
 
@@ -17,6 +17,8 @@ export const axiosInstance: AxiosInstance = axios.create({
   },
 });
 
-export const setAccessToken = (token: string): void => {
+export const setAccessToken = (token: string): void=> {
+  setCookie('token', token)
+ 
   axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
