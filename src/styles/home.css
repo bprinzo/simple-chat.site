@@ -1,47 +1,42 @@
-.container{
-
-    margin: 0 auto;
-    text-align: center;
-
+.container {
+  margin: 0 auto;
+  text-align: center;
 }
 
-.container_button{
-    display: block;
-	justify-content: space-between;
-	padding: 16px 32px;
-	align-items: center;
+.container_button {
+  display: block;
+  justify-content: space-between;
+  padding: 16px 32px;
+  align-items: center;
 }
 
-.container_button button{
-    background-color: black;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    /* margin-right: 10px; */
+.container_button button {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  /* margin-right: 10px; */
 }
 
-.container_chatBox{
-    
-    display: grid;
-    place-items: center;
-    
+.container_chatBox {
+  display: grid;
+  place-items: center;
 }
 
 .id {
-    margin-top: 60px;
-    margin-bottom: 30px;
-    text-align: center;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-.id h1{
-    font-size: 30px;
-    color: whitesmoke;
-    text-shadow: 2px 2px black;
+.id h1 {
+  font-size: 30px;
+  color: rgb(255, 255, 255);
 }
 
-.container h4{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 20px;
-    color: black
+.container h4 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
 }

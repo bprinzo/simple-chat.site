@@ -4,7 +4,7 @@ p {
 }
 
 .sendedMessage {
-  background-color: rgba(127, 229, 114, 0.6);
+  background-color: #88a788;
   border-radius: 10px 10px 0px 10px;
   padding: 7px 10px 7px 10px;
   margin-bottom: 15px;

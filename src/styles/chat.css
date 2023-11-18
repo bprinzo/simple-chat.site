@@ -1,6 +1,5 @@
 .container {
   background-color: white;
-  width: 70%;
   height: 700px;
   margin: 0 auto;
   margin-top: 10px;
@@ -9,7 +8,7 @@
 
 .title {
   color: black;
-  background-color: rgba(127, 229, 114, 0.6);
+  background-color: #88a788;
   border-radius: 5px 5px 0px 0px;
   height: 30px;
   line-height: 30px;
@@ -45,7 +44,7 @@
 
 .sendButton {
   padding: 12px;
-  background-color: rgba(127, 229, 114, 0.6);
+  background-color: #88a788;
   color: black;
   font-weight: bold;
   border-top-right-radius: 5px;

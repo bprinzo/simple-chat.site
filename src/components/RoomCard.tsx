@@ -1,24 +1,28 @@
+import { Room } from "@/types/Room";
+import "../styles/roomCard.css";
+import { useRouter } from "next/navigation";
 
-import { Room } from '@/types/Room'
-import '../styles/roomCard.css'
-import { useRouter } from 'next/navigation'
-
-export default function RoomCard({ room }: { room: Room }){
-
-  const navigation = useRouter()
+export default function RoomCard({ room }: { room: Room }) {
+  const navigation = useRouter();
 
   const handleClick = () => {
-    navigation.push(`/chat/${room.id}`)
-  }
+    navigation.push(`/chat/${room.id}`);
+  };
 
-  return(
+  return (
     <>
       <div className="roomBox">
         <button onClick={handleClick}>
-          <h3><strong>{room.title}</strong></h3>
-          <p>#{room.id.split('-')[0]}</p>
+          <div
+            style={{ display: "flex", gap: "10px", justifyContent: "center" }}
+          >
+            <h3>
+              <strong>{room.title}</strong>
+            </h3>
+            <p>#{room.id.split("-")[0]}</p>
+          </div>
         </button>
       </div>
     </>
-  )
+  );
 }
