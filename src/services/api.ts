@@ -18,7 +18,5 @@ export const axiosInstance: AxiosInstance = axios.create({
 });
 
 export const setAccessToken = (token: string): void=> {
-  setCookie('token', token)
- 
   axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
